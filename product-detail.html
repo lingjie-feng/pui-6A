@@ -12,7 +12,6 @@
 
     <!-- JS -->
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
-    <script src="https://unpkg.com/js-image-zoom@0.7.0/js-image-zoom.js" type="application/javascript"></script>
     <script src="static/js/main.js"></script>
 
     <!-- Font -->
@@ -52,33 +51,9 @@
 
     <div class="product-info">
         <div class="item-image-parent">
-            <div class="item-list-vertical">
-                <div class="thumb-box">
-                    <img src="static/images/dog_harness.jpg" alt="thumbnail" />
-                </div>
-                <div class="thumb-box">
-                    <img src="static/images/dog_harness.jpg" alt="thumbnail" />
-                </div>
-                <div class="thumb-box">
-                    <img src="static/images/dog_harness.jpg" alt="thumbnail" />
-                </div>
-                <div class="thumb-box">
-                    <img src="static/images/dog_harness.jpg" alt="thumbnail" />
-                </div>
+            <div id="main-image">
+                <img id="product_image" src="static/images/large_dog_strawberry.jpg" />
             </div>
-
-            <div id="img-zoom-container">
-                <img src="static/images/dog_harness.jpg" width="50px"/>
-            </div>
-            <script>
-              var options = {
-                width: 600,
-                zoomWidth: 500,
-                offset: {vertical: 0, horizontal: 10}
-              };
-              new ImageZoom(document.getElementById("img-zoom-container"), options);
-            
-            </script>
 
         </div>
 

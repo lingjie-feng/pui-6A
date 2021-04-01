@@ -310,6 +310,7 @@ var size_item = 0;
 var color_item = 0;
 function get_size(id) {
   let lis = document.getElementById("change-size").getElementsByTagName('li');
+  let image = document.getElementById('product_image');
   size_item = parseInt(id);
   for (let i=0; i<lis.length; i++) {
     if (i != size_item) {
@@ -317,11 +318,26 @@ function get_size(id) {
     }
   }
   lis[size_item].style.backgroundColor = "#f7bf26";
+
+
+  // change the main image corresponding to the size
+  if (size_item == 0) {
+    image.src = image.src.replace(/tiny|small|medium|large/, 'tiny');
+  } else if (size_item == 1) {
+    image.src = image.src.replace(/tiny|small|medium|large/, 'small');
+  } else if (size_item == 2) {
+    image.src = image.src.replace(/tiny|small|medium|large/, 'medium');
+  } else {
+    image.src = image.src.replace(/tiny|small|medium|large/, 'large');
+  }
+
 }
 
 
 function get_color(id) {
   let lis = document.getElementById("change-color").getElementsByTagName('li');
+  let image = document.getElementById('product_image');
+
   color_item = parseInt(id);
   for (let i=0; i<lis.length; i++) {
     if (i != color_item) {
@@ -329,6 +345,16 @@ function get_color(id) {
     }
   }
   lis[color_item].style.backgroundColor = "#f7bf26";
+
+  // change the main image corresponding to the color
+  if (color_item == 0) {
+    image.src = image.src.replace(/strawberry|blackberry|crazyberry|fireorange/, 'strawberry');
+    console.log(image.src);
+  } else if (color_item == 1) {
+    image.src = image.src.replace(/strawberry|blackberry|crazyberry|fireorange/, 'blackberry');
+  } else if (color_item == 2) {
+    image.src = image.src.replace(/strawberry|blackberry|crazyberry|fireorange/, 'crazyberry');
+  } else {
+    image.src = image.src.replace(/strawberry|blackberry|crazyberry|fireorange/, 'fireorange');
+  }
 }
-
-
