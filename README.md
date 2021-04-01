@@ -8,6 +8,9 @@ For 'Creating a new page', I only did the paper and Figma prototype for the shop
 
 References: 
 Shoppig cart icon: https://www.w3schools.com/icons/tryit.asp?filename=tryicons_fa-shopping-cart
+Shopping cart tutorial: https://www.youtube.com/watch?v=YeFzkC2awTM
+Add to cart interaction: https://codyhouse.co/gem/add-to-cart-interaction
+Shopping cart interactive: https://designmodo.com/shopping-cart-ui/
 
 
 

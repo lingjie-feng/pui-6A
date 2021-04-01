@@ -21,18 +21,12 @@ var filtering = function () {
     // loop over the selected filter name -> (array) values pairs
     $.each(selectedFilters, function(name, filterValues) {
 
-      // filter each .flower element
       $filteredResults = $filteredResults.filter(function() {
 
         var matched = false,
           currentFilterValues = $(this).data('category').split(' ');
 
-        // loop over each category value in the current .flower's data-category
         $.each(currentFilterValues, function(_, currentFilterValue) {
-
-          // if the current category exists in the selected filters array
-          // set matched to true, and stop looping. as we're ORing in each
-          // set of filters, we only need to match once
 
           if ($.inArray(currentFilterValue, filterValues) != -1) {
             matched = true;
@@ -40,7 +34,7 @@ var filtering = function () {
           }
         });
 
-        // if matched is true the current .flower element is returned
+        // if matched is true the current matched items are returned.
         return matched;
 
       });
@@ -104,130 +98,6 @@ function hidevalue() {
 
 
 
-
-
-// shopping cart
-/* Set rates + misc */
-var taxRate = 0.05;
-var shippingRate = 15.00; 
-var fadeTime = 300;
-
-
-/* Recalculate cart */
-function recalculateCart()
-{
-  var subtotal = 0;
-  
-  /* Sum up row totals */
-  $('.product').each(function () {
-    subtotal += parseFloat($(this).children('.product-line-price').text());
-  });
-  
-  /* Calculate totals */
-  var tax = subtotal * taxRate;
-  var shipping = (subtotal > 0 ? shippingRate : 0);
-  var total = subtotal + tax + shipping;
-  
-  /* Update totals display */
-  $('.totals-value').fadeOut(fadeTime, function() {
-    $('#cart-subtotal').html(subtotal.toFixed(2));
-    $('#cart-tax').html(tax.toFixed(2));
-    $('#cart-shipping').html(shipping.toFixed(2));
-    $('#cart-total').html(total.toFixed(2));
-    if(total == 0){
-      $('.checkout').fadeOut(fadeTime);
-    }else{
-      $('.checkout').fadeIn(fadeTime);
-    }
-    $('.totals-value').fadeIn(fadeTime);
-  });
-}
-
-
-/* Update quantity */
-function updateQuantity(quantityInput)
-{
-  /* Calculate line price */
-  var productRow = $(quantityInput).parent().parent();
-  var price = parseFloat(productRow.children('.product-price').text());
-  var quantity = $(quantityInput).val();
-  var linePrice = price * quantity;
-  
-  /* Update line price display and recalc cart totals */
-  productRow.children('.product-line-price').each(function () {
-    $(this).fadeOut(fadeTime, function() {
-      $(this).text(linePrice.toFixed(2));
-      recalculateCart();
-      $(this).fadeIn(fadeTime);
-    });
-  });  
-}
-
-
-/* Remove item from cart */
-function removeItem(removeButton)
-{
-  /* Remove row from DOM and recalc cart total */
-  var productRow = $(removeButton).parent().parent();
-  productRow.slideUp(fadeTime, function() {
-    productRow.remove();
-    recalculateCart();
-  });
-}
-
-
-// Add to cart feature
-/*
-Experimenting with the jquery offset and position
-*/
-$(document).ready(function() {
-  var cartCountValue = 0;
-  var cartCount = $('.cart .count');
-  $(cartCount).text(cartCountValue);
-
-  $('.cart-btn').on('click', function() {
-    var cartBtn = this;
-    var cartCountPosition = $(cartCount).offset();
-    var btnPosition = $(this).offset();
-    var leftPos =
-      cartCountPosition.left < btnPosition.left
-        ? btnPosition.left - (btnPosition.left - cartCountPosition.left)
-        : cartCountPosition.left;
-    var topPos =
-      cartCountPosition.top < btnPosition.top
-        ? cartCountPosition.top
-        : cartCountPosition.top;
-    $(cartBtn)
-      .append("<span class='count'>1</span>");
-    
-    $(cartBtn).find(".count").each(function(i,count){
-      $(count).offset({
-        left: leftPos,
-        top: topPos
-      })
-      .animate(
-        {
-          opacity: 0
-        },
-        800,
-        function() {
-          $(this).remove();
-          cartCountValue++;
-          $(cartCount).text(cartCountValue);
-        }
-      );
-    }); 
-  });
-
-  function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-});
-
-
-
-
-
 // select items
 var size_item = 0;
 var color_item = 0;
@@ -235,11 +105,15 @@ function get_size(id) {
   let lis = document.getElementById("change-size").getElementsByTagName('li');
   let image = document.getElementById('product_image');
   size_item = parseInt(id);
+  
+  // change the color of the unselected item to the default 
   for (let i=0; i<lis.length; i++) {
     if (i != size_item) {
       lis[i].style.backgroundColor = "#E0EFD6";
     }
   }
+
+  // change the color of the selected item
   lis[size_item].style.backgroundColor = "#f7bf26";
 
 
@@ -260,13 +134,15 @@ function get_size(id) {
 function get_color(id) {
   let lis = document.getElementById("change-color").getElementsByTagName('li');
   let image = document.getElementById('product_image');
-
   color_item = parseInt(id);
+  
+  // change the color of the unselected item to the default 
   for (let i=0; i<lis.length; i++) {
     if (i != color_item) {
       lis[i].style.backgroundColor = "#E0EFD6";
     }
   }
+  // change the color of the selected item
   lis[color_item].style.backgroundColor = "#f7bf26";
 
   // change the main image corresponding to the color
@@ -281,3 +157,110 @@ function get_color(id) {
     image.src = image.src.replace(/strawberry|blackberry|crazyberry|fireorange/, 'fireorange');
   }
 }
+
+
+
+// shopping cart
+/* Recalculate cart */
+function recalculateCart()
+{
+  var subtotal = 0;
+  
+  /* Sum up row totals */
+  $('.product').each(function () {
+    subtotal += parseFloat($(this).children('.product-line-price').text());
+  });
+  
+  /* Calculate totals */
+  var tax = subtotal *  0.05;
+  var shipping = (subtotal > 0 ? 15.00 : 0);
+  var total = subtotal + tax + shipping;
+  
+  /* Update totals display */
+  $('.totals-value').fadeOut(300, function() {
+    $('#cart-subtotal').html(subtotal.toFixed(2));
+    $('#cart-tax').html(tax.toFixed(2));
+    $('#cart-shipping').html(shipping.toFixed(2));
+    $('#cart-total').html(total.toFixed(2));
+    if(total == 0){
+      $('.checkout').fadeOut(300);
+    }else{
+      $('.checkout').fadeIn(300);
+    }
+    $('.totals-value').fadeIn(300);
+  });
+}
+
+
+/* Update quantity */
+function updateQuantity(quantityInput)
+{
+  /* Calculate line price */
+  var productRow = $(quantityInput).parent().parent();
+  var price = parseFloat(productRow.children('.product-price').text());
+  var quantity = $(quantityInput).val();
+  var linePrice = price * quantity;
+  
+  /* Update line price display and recalc cart totals */
+  productRow.children('.product-line-price').each(function () {
+    $(this).fadeOut(300, function() {
+      $(this).text(linePrice.toFixed(2));
+      recalculateCart();
+      $(this).fadeIn(300);
+    });
+  });  
+}
+
+
+/* Remove item from cart */
+function removeItem(removeButton)
+{
+  /* Remove row from DOM and recalc cart total */
+  var productRow = $(removeButton).parent().parent();
+  productRow.slideUp(300, function() {
+    productRow.remove();
+    recalculateCart();
+  });
+}
+
+
+// Add to cart feature
+$(document).ready(function() {
+  var cartCountValue = 0;
+  var cartCount = $('.cart .count');
+  $(cartCount).text(cartCountValue);
+
+  $('.cart-btn').on('click', function() {
+    var cartBtn = this;
+    var cartCountPosition = $(cartCount).offset();
+    var btnPosition = $(this).offset();
+    var leftPos =
+      cartCountPosition.left < btnPosition.left ? btnPosition.left - (btnPosition.left - cartCountPosition.left)
+        : cartCountPosition.left;
+    var topPos = cartCountPosition.top < btnPosition.top  ? cartCountPosition.top : cartCountPosition.top;
+    $(cartBtn)
+      .append("<span class='count'>1</span>");
+    
+    $(cartBtn).find(".count").each(function(i,count){
+      $(count).offset({
+        left: leftPos,
+        top: topPos
+      }) .animate(
+        { opacity: 0  },  800,
+        function() {
+          $(this).remove();
+          cartCountValue++;
+          $(cartCount).text(cartCountValue);
+        }
+      );
+    }); 
+  });
+
+  function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+});
+
+
+
+
